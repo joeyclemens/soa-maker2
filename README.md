@@ -1,2 +1,1 @@
-# soa-maker2
-Electric boogaloo
+# soa_maker

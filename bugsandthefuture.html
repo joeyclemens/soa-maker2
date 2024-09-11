@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bugs and future revisions log</title>
+<link rel="stylesheet" href="styles.css">
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header-section">
+      <h2>
+        <span id="header-text"></span>
+        <span id="cursor"></span>
+      </h2>
+    </div>
+    <div class="button-section"></div>
+    <div class="content">
+      <div class="step">
+       <h2>Known Bugs</h2>
+       <ul>
+        <li>Multi-select on the department selection is not working </li>
+        <li>Title on view soa page showing project number rather than name</li>
+        <li>SoA page would work better in a seperate tab or window. The back to home button resets the SoA maker every time you go back.</li>
+       </ul>
+      
+    </div>
+    <div class="step">
+      <h2>Features of the future</h2>
+      <ul>
+       <li>Amend the SoA from the View SoA page</li>
+       <li>A more upto date and complete source SoA to build the initial dataset from</li>  
+       <li> Edit/delete projects from the SoA maker page</li>
+
+      </ul>
+     
+   </div>
+    
+
+
+    
+  </div>
+
+<!-- Back to Top Button with Font Awesome icon and custom style -->
+<button onclick="scrollToTop()" id="back-to-top-btn" class="button" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+  // JavaScript to show/hide the back to top button
+  window.onscroll = function() {scrollFunction()};
+  
+  function scrollFunction() {
+    var button = document.getElementById("back-to-top-btn");
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      button.style.opacity = "1";
+    } else {
+      button.style.opacity = "0";
+    }
+  }
+  
+  function scrollToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+  </script>
+
+<script src="js/bugsandstuff.js"></script>
+
+</body>
+</html>
