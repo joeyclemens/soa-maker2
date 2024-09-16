@@ -51,6 +51,7 @@ import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import PatternFill, Font, Alignment
+import re
 
 app = Flask(__name__)
 
@@ -69,7 +70,7 @@ def get_areaslevel3_data():
     cnxn = get_db_connection()
     if cnxn:
         cursor = cnxn.cursor()
-        cursor.execute("SELECT * FROM dbo.Areaslevel3")  # Adjust the query as needed
+        cursor.execute("SELECT * FROM dbo.Areaslevel3")  
         rows = cursor.fetchall()
         cursor.close()  # Close the cursor
         cnxn.close()    # Close the connection
@@ -182,7 +183,7 @@ def add_project():
             print(f"Error adding project: {e}")
         finally:
             cnxn.close()  # Close the connection
-    return redirect(url_for('index'))  # Redirect to the main page or another appropriate page
+    return redirect(url_for('index'))  # Redirect to the main page 
 
 @app.route('/populate_soa', methods=['POST'])
 def populate_soa():
@@ -204,7 +205,7 @@ def populate_soa():
         try:
             cursor = cnxn.cursor()
 
-            # Updated query to include Room_Code
+            
             query = """
             INSERT INTO dbo.SoA 
             (Project, Room_ID, Room_Description, Room_Code, ParentArea, AL3, AL2, AL1, Qty, Area, Comments, Circulation_Percentage)
@@ -632,6 +633,18 @@ def generate_soa_report(project_number):
                 for cell in ws[row + 1]:
                     cell.fill = blue_fill
                     cell.font = bold_font
+
+                # Update formulas in the rows below the inserted row
+                for update_row in range(row + 2, last_row + 2):
+                    for col in ['E', 'F', 'G', 'H']:
+                        cell = ws[f'{col}{update_row}']
+                        if cell.data_type == 'f':  # Check if the cell contains a formula
+                            formula = cell.value
+                            # Update row references in the formula
+                            updated_formula = re.sub(r'(\$?[A-Z]\$?)(\d+)', 
+                                                     lambda m: m.group(1) + str(int(m.group(2)) + 1), 
+                                                     formula)
+                            cell.value = updated_formula
 
                 row += 2
                 last_row += 1
